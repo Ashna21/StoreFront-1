@@ -11,17 +11,13 @@ namespace StoreFront.Models
         [Display(Description = "Type your search request here:")]
         public string SearchText { get; set; }
 
-        public List<SearchResultViewModel> Results {get;set;}
-
-        public SearchViewModel()
-        {
-            Results = new List<SearchResultViewModel>();
-        }
-
+        public List<SearchResultViewModel> Results {get;set; } = new List<SearchResultViewModel>();
     }
 
     public class SearchResultViewModel
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public decimal Price { get; set; }

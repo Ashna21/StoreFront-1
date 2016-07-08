@@ -1,4 +1,5 @@
 ﻿using StoreFront.Models;
+using StoreFrontDal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,18 +25,33 @@ namespace StoreFront.Controllers
         {
             model.Name = HttpContext.User.Identity.Name;
 
-            using (var context = new StoreFrontDal.StoreFrontEntities())
+            var repository = new StoreFrontRepository();
+
+            var products = repository.SearchProducts(model.SearchText);
+
+            model.Results = products.Select(x => new SearchResultViewModel
             {
-                var products = context.Products.Where(x => x.ProductName.Contains(model.SearchText));
-                model.Results = products.Select(x => new SearchResultViewModel
-                {
-                    Name = x.ProductName,
-                    Price = x.Price ?? 9999999,
-                    ImageFile = x.ImageFile
-                }).ToList();
-            }
+                Id = x.Id,
+                Name = x.Name,
+                Price = x.Price,
+                ImageFile = x.ImageFile
+            }).ToList();
 
             return View("~/Views/ProductSearch/Index.cshtml", model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult AddToCart(int id)
+        {
+            //database stuff happens
+            var cart = new {
+                TotalPrice = 1000m,
+                Quantity = 5,
+                TransactionMessage = "Success",
+            };
+
+            return Json(cart);
         }
     }
 }

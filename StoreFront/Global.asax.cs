@@ -16,6 +16,7 @@ namespace StoreFront
             // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            BundleConfig2.RegisterBundles(BundleTable.Bundles);
         }
     }
 }

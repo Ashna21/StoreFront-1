@@ -54,6 +54,8 @@
     <Compile Include="Address.cs">
       <DependentUpon>StoreFrontEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Contracts\CartContract.cs" />
+    <Compile Include="Contracts\ProductContract.cs" />
     <Compile Include="StoreFrontRepository.cs" />
     <Compile Include="Order.cs">
       <DependentUpon>StoreFrontEntities.tt</DependentUpon>
@@ -133,6 +135,7 @@
       <DependentUpon>StoreFrontEntities.edmx</DependentUpon>
     </None>
     <Compile Include="StoreFrontRepository.Product.cs" />
+    <Compile Include="StoreFrontRepository.Cart.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="StoreFrontEntities.Context.tt">

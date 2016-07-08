@@ -1,5 +1,9 @@
 ﻿@model StoreFront.Models.SearchViewModel
 
+<div>
+    <input type="text" value="0" id="Added"/>
+</div>
+
 @using (Html.BeginForm("Search", "ProductSearch", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
@@ -32,11 +36,38 @@
         @result.Name
         @result.Price.ToString()
         @result.ImageFile
+        <input class="cartButton" type="button" value="Add to cart" onclick="addToCart(@result.Id)"/>
+        <br/>
+        @*@Ajax.ActionLink("Add to Cart", "AddToCart", new { id = result.Id }, new AjaxOptions() { HttpMethod = "Post", UpdateTargetId = "Added" })*@
     }
 }
-
-
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            var x = 1000;
+        });
+
+        var addToCart = function(idFromButton){
+
+            $.post('/ProductSearch/AddToCart', { id: idFromButton },
+                function (data) {
+
+                    $("#itemsInCart").html(data.Quantity);
+                    $("#cartPrice").html("$" + data.TotalPrice);
+                    alert(data.TransactionMessage);
+
+                    $("#userName").fadeToggle();
+
+                }
+            );
+
+        }
+
+    </script>
+}
+

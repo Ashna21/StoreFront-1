@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoreFrontDal.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,9 +14,15 @@ namespace StoreFrontDal
             return _context.Products.ToList();
         }
 
-        public List<Product> SearchProducts(string searchString)
+        public List<ProductContract> SearchProducts(string searchString)
         {
-            return _context.Products.Where(x => x.ProductName.Contains(searchString) || x.Description.Contains(searchString)).ToList();
+            return _context.Products.Where(x => x.ProductName.Contains(searchString) || x.Description.Contains(searchString))
+                .Select(x => new ProductContract {
+                    Id = x.ProductID,
+                    Name = x.ProductName, 
+                    Price = x.Price ?? 999999,
+                    ImageFile = x.ImageFile
+                }).ToList();
         }
     }
 }
